@@ -12,7 +12,7 @@
 
 
 
-<title>字符过滤 | overnight-miss-you</title>
+<title>三种伪协议的使用 | overnight-miss-you</title>
 
 
 
@@ -173,7 +173,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">字符过滤</h1>
+            <h1 class="post-title">三种伪协议的使用</h1>
             
                 <div class="post-meta">
                     
@@ -182,7 +182,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">October 4, 2020&nbsp;&nbsp;11:33:29</a>
+                        Date: <a href="#">October 6, 2020&nbsp;&nbsp;10:35:28</a>
                         </span>
                     
                     
@@ -191,34 +191,30 @@
         </header>
 
         <div class="post-content">
-            <h2 id="垃圾博客第二弹："><a href="#垃圾博客第二弹：" class="headerlink" title="垃圾博客第二弹："></a>垃圾博客第二弹：</h2><p>简单的说一下，菜鸡的我混进大佬群的学习情况；</p>
-<h4 id="面对一些过滤题，我们可以使用一些简单的绕过方式："><a href="#面对一些过滤题，我们可以使用一些简单的绕过方式：" class="headerlink" title="面对一些过滤题，我们可以使用一些简单的绕过方式："></a>面对一些过滤题，我们可以使用一些简单的绕过方式：</h4><h5 id="如：过滤了cat我们可以使用与它类似的代码tail-tac-nl-more-less-od"><a href="#如：过滤了cat我们可以使用与它类似的代码tail-tac-nl-more-less-od" class="headerlink" title="如：过滤了cat我们可以使用与它类似的代码tail,tac,nl,more less,od"></a>如：过滤了<code>cat</code>我们可以使用与它类似的代码<code>tail</code>,<code>tac</code>,<code>nl</code>,<code>more less</code>,<code>od</code></h5><p><code>tac</code>与<code>cat</code>相反。是从尾到头列出查找的内容；</p>
-<p><code>nl</code>是把文本加行号再标准输出；</p>
-<p><code>more</code>将文本以一页一页的形式显示；（一般<em>space</em>显示下一页，不能显示上一页）</p>
-<p><code>less</code>与<code>more</code>类似不过<code>less</code>为随意浏览，一般<em>space</em>显示下一页，<code>b</code>显示上一页）</p>
-<p><code>od</code>以进制数的形式输出文本;   <code>-d</code>十进制；<code>-o</code>八进制（默认）；<code>-x</code>十六进制；<code>-c</code>ASCLL字符型</p>
-<h4 id="或者我们可以通过符号来进行绕过；"><a href="#或者我们可以通过符号来进行绕过；" class="headerlink" title="或者我们可以通过符号来进行绕过；"></a>或者我们可以通过符号来进行绕过；</h4><h5 id="如：过滤了cat-flag-php-等重要命令时；"><a href="#如：过滤了cat-flag-php-等重要命令时；" class="headerlink" title="如：过滤了cat,flag,php,等重要命令时；"></a>如：过滤了<code>cat</code>,<code>flag</code>,<code>php</code>,等重要命令时；</h5><p>我们可以使用符号来进行绕过：</p>
-<p>如：过滤cat时<code>c\a\t</code>,<code>c&quot;a&quot;t</code>,<code>c&#39;a&#39;t</code>,</p>
-<p>过滤flag或php时<code>f\lag.php</code>,<code>f&#39;l&#39;ag.php</code>,<code>fl??.php</code>.  <code>fla??php</code>,<code>f*</code>等。。  <em><u>?&lt;=&gt;表示一个任意的一个字符</u></em>       <u>（<code>*</code>表示的是自动补全后面的）</u></p>
-<h5 id="当过滤了执行命令system时"><a href="#当过滤了执行命令system时" class="headerlink" title="当过滤了执行命令system时"></a>当过滤了执行命令<code>system</code>时</h5><p>我们可以用 <code>passthur()</code>,<code>exec()</code>,<code>popen()</code>,代替。</p>
-<p><code>passthru</code>直接将结果输出，不需要使用 echo 或 return 来查看结果，不返回任何值，且其可以输出二进制，比如图像数据。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201004183355.png"></p>
-<p>exec ()函数与system()类似，也执行给定的命令，但不输出结果，而是返回结果的<strong>最后一行</strong>。如果要是输出多条；则需要在后面加参数<code>array</code>（不过我现在还不会用）</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201004183126.png"></p>
-<p>popen函数不会直接返回执行结果，而是返回一个文件指针，但命令已经执行。如果要输出文件指针，需要加`fread``。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201004190756.png"></p>
-<p>如果只是输出了一部分，可能是 300 不够 ，把300加大就行。</p>
-<h5 id="当一些重要的符号被过滤时"><a href="#当一些重要的符号被过滤时" class="headerlink" title="当一些重要的符号被过滤时"></a>当一些重要的符号被过滤时</h5><p>如<code> </code>（空格）被过滤时;我们可以使用：<code>%09(tab)</code>,<code>$IFS$9</code>,<code>$&#123;IFS&#125;</code>,<code>&lt;(不太管用)</code>，<code>&lt;&gt;</code>,<code>%20</code>来代替<code> </code></p>
-<p><code>;</code>被过滤时，我们可以使用<code>?&gt;</code>来代替</p>
-<p>​    <code>()</code>被过滤时，php中不用括号的有 <code>echo</code>,和<code>include</code>等</p>
-<p>​         <code>echo</code>是用于字符串的输出;</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201005131720796.png" alt="image-20201005131720796"></p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201005132452.png"></p>
-<p>或者使用<code>include</code>通过$_POST[1]来获取数据，但include包含的php文件不会在页面显示，所以需要使用伪协议。*<u>这里使用的是php://filter伪协议</u>*</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201005154013.png"></p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201005154118.png"></p>
-<p>不过最后输出的是base64加密的形式输出的，在网页上解密即可。</p>
-<h4 id="！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！"><a href="#！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！" class="headerlink" title="！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！"></a>！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！</h4><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/QQ图片20201006210944.gif" style="zoom:67%;" />
+            <h2 id="垃圾博客第三弹"><a href="#垃圾博客第三弹" class="headerlink" title="垃圾博客第三弹"></a>垃圾博客第三弹</h2><p>前一弹，我们题到了<em>伪协议</em></p>
+<p>这一蛋。我们就简单的讲解一些PHP中常用的三种伪协议<code>php://input</code>,<code>php://filter</code>,<code>php://data</code></p>
+<p>（主要是博主太垃圾了  NB一点的我也不会…….）</p>
+<h5 id="php-input-是个可以访问请求的原始数据的只读流。-POST-请求的情况下，最好使用-php-input，因为它不依赖于特定的-php-ini-指令。"><a href="#php-input-是个可以访问请求的原始数据的只读流。-POST-请求的情况下，最好使用-php-input，因为它不依赖于特定的-php-ini-指令。" class="headerlink" title="php://input 是个可以访问请求的原始数据的只读流。    POST 请求的情况下，最好使用 php://input，因为它不依赖于特定的 php.ini 指令。"></a><code>php://input</code> 是个可以访问请求的原始数据的只读流。    POST 请求的情况下，最好使用 php://input，因为它不依赖于特定的 php.ini 指令。</h5><p>使用<code>php://input</code>协议需要条件：</p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006203858.png"></p>
+<p>使用如下：：可以通过! burpsuite !抓包，修改数据来进行读取数据包。</p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006193113.png"></p>
+<p>也可以通过! Max HackBar !插件直接访问。</p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006193345.png"></p>
+<h5 id="php-filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。"><a href="#php-filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。" class="headerlink" title="php://filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。"></a><code>php://filter</code>是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。</h5><p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006195207.png"></p>
+<p>使用<code>base64</code>来读取数据的方法在<a target="_blank" rel="noopener" href="https://overnight-miss-you.github.io/2020/10/04/Characters%20of%20the%20filter/">第一弹最后已经说过</a>，在这不在复述。</p>
+<p><code>php://filter</code>字符串处理方法来除去<code>exit</code>。</p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006200426.png"></p>
+<p>！！<code>&lt;?php exet;?&gt;</code>是一个XML标签，我们可以通过<code>strip_tags</code>函数过滤它。</p>
+<p>不过.。<img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/19E64C43.jpg" alt="img">我还不会以这个，先把代码放着:<code>php://filter/write=string.strip_tags|convert.base64-decode/resource=shell.php</code>。（看着和前面的有点像）。</p>
+<h5 id="最后就是php-data使用条件和php-input一样"><a href="#最后就是php-data使用条件和php-input一样" class="headerlink" title="最后就是php://data使用条件和php://input一样"></a>最后就是<code>php://data</code>使用条件和<code>php://input</code>一样</h5><p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20200728205328780.PNG"></p>
+<p>并且<code>data</code>可以直接写入代码，形式如下：</p>
+<p><code>data: text/plain,&lt;?php 执行内容 ?&gt;</code>,</p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006205231.png"></p>
+<p>使用base64编码。。（红色划线部分为<code>&lt;?php system(&#39;cat flag.php&#39;);?&gt;</code>的base64加密）</p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006204416.png"></p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006205504.png"></p>
+<p><code>data:text/plain;base64,执行的代码（base64加密）</code>==可以绕过一些过滤；。</p>
+<h4 id="！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！"><a href="#！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！" class="headerlink" title="！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！"></a>！！！这次的垃圾博客就到这了，<font color=#\#66CCFF size>蕾姆</font>叫我去睡觉了！！</h4><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/4dee2d4f78f0f736804edf150555b319eac413f8.gif" style="zoom: 80%;" />
         </div>
 
         
@@ -232,7 +228,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://example.com/2020/10/04/Characters%20of%20the%20filter/">http://example.com/2020/10/04/Characters%20of%20the%20filter/</a></span>
+                        <span><a href="http://example.com/2020/10/06/php-input/">http://example.com/2020/10/06/php-input/</a></span>
                     </p>
                 
                 
@@ -265,10 +261,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/10/06/php-input/">三种伪协议的使用</a>
             
-            
-            <a class="next" rel="next" href="/2020/10/03/wife/">wife</a>
+            <a class="next" rel="next" href="/2020/10/04/Characters%20of%20the%20filter/">字符过滤</a>
             
         </section>
 
