@@ -197,10 +197,13 @@
 <p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201008103322144.png" alt="image-20201008103322144"></p>
 <h5 id="2-Training-WWW-Robots"><a href="#2-Training-WWW-Robots" class="headerlink" title="2==Training-WWW-Robots"></a>2==Training-WWW-Robots</h5><p>打开，根据题目头，访问<code>robots.txt</code>发现<code>fa0g.php</code>直接打开得到flag;</p>
 <p>  <em>robots.txt是搜索引擎中访问网站的时候要查看的第一个文件。</em></p>
-<h5 id="3-Web-python-template-injection"><a href="#3-Web-python-template-injection" class="headerlink" title="3==Web_python_template_injection"></a>3==Web_python_template_injection</h5><p>打开，提示python模板注入，通过python的对象的继承来一步步实现文件读取和命令执行的的。所要执行的代码要被<code>&#123;&#125;</code>包括。</p>
-<p>首先 随便输入看代码是否会被执行</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201008133939744.png" alt="image-20201008133939744"></p>
-<p>输入的1+1被计算为2 。所以<code>&#123;&#125;</code>中的代码会被计算。接下来我们要通过注入代码来查找flag。</p>
+<h5 id="3-Web-python-template-injection"><a href="#3-Web-python-template-injection" class="headerlink" title="3==Web_python_template_injection"></a>3==Web_python_template_injection</h5><p>打开，提示python模板注入，通过python的对象的继承来一步步实现文件读取和命令执行的的。所要执行的代码要被<code>&#123;&#123;&#125;&#125;`包括。
+
+首先 随便输入看代码是否会被执行
+
+![image-20201008133939744](https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201008133939744.png)
+
+输入的1+1被计算为2 。所以`&#123;&#123;&#125;&#125;</code>中的代码会被计算。接下来我们要通过注入代码来查找flag。</p>
 <p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201008134354381.png" alt="image-20201008134354381"></p>
 <p>接下来的我也看不懂。。不公通用代码放这，以及<a target="_blank" rel="noopener" href="https://www.freebuf.com/column/187845.html">大佬的细节解释</a>；</p>
 <p>类似的pyon模板注入的题通用的命令：<code>&#123;&#123;[].__class__.__base__.__subclasses__()[71].__init__.__globals__['os'].popen("要执行的语句").read()&#125;&#125;</code></p>
@@ -230,7 +233,7 @@
 <p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201008160756756.png" alt="image-20201008160756756"></p>
 <p>或者使用<code>data</code>协议，输入<code>data: text/plain,&lt;?php system(&quot;ls&quot;); ?&gt;</code></p>
 <p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201008162455141.png" alt="image-20201008162455141"></p>
-<h4 id="！！-这次的菜鸡博客就到这里了，加藤-惠喊我回去睡觉了。！！！-づ｡◕ᴗᴗ◕｡-づ"><a href="#！！-这次的菜鸡博客就到这里了，加藤-惠喊我回去睡觉了。！！！-づ｡◕ᴗᴗ◕｡-づ" class="headerlink" title="！！!这次的菜鸡博客就到这里了，加藤 惠喊我回去睡觉了。！！！(づ｡◕ᴗᴗ◕｡)づ"></a>！！!这次的菜鸡博客就到这里了，加藤 惠喊我回去睡觉了。！！！(づ｡◕ᴗᴗ◕｡)づ</h4><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/timasag.gif" style="zoom:120%;" />
+<h4 id="！！-这次的菜鸡博客就到这里了，加藤-惠喊我回去睡觉了。！！！-づ｡◕ᴗᴗ◕｡-づ"><a href="#！！-这次的菜鸡博客就到这里了，加藤-惠喊我回去睡觉了。！！！-づ｡◕ᴗᴗ◕｡-づ" class="headerlink" title="！！!这次的菜鸡博客就到这里了，加藤 惠喊我回去睡觉了。！！！(づ｡◕ᴗᴗ◕｡)づ"></a>！！!这次的菜鸡博客就到这里了，加藤 惠喊我回去睡觉了。！！！(づ｡◕ᴗᴗ◕｡)づ</h4><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/timasag.gif" style="zoom:150%;" />
         </div>
 
         
@@ -278,7 +281,7 @@
         <section class="post-nav">
             
             
-            <a class="next" rel="next" href="/2020/10/07/himBHs-a/">攻防世界入门题</a>
+            <a class="next" rel="next" href="/2020/10/07/himBHs-a/">攻防世界入门</a>
             
         </section>
 
