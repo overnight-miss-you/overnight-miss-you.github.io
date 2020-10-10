@@ -545,7 +545,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
 }
-.navbar .container .navbar-right {
+.navbar-right {
   display: flex;
   flex-direction: row;
   align-items: center;
