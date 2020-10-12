@@ -390,26 +390,26 @@
 <p>这一蛋。我们就简单的讲解一些PHP中常用的三种伪协议<code>php://input</code>,<code>php://filter</code>,<code>php://data</code></p>
 <p>（主要是博主太垃圾了  NB一点的我也不会…….）</p>
 <h5 id="php-input-是个可以访问请求的原始数据的只读流。-POST-请求的情况下，最好使用-php-input，因为它不依赖于特定的-php-ini-指令。"><a href="#php-input-是个可以访问请求的原始数据的只读流。-POST-请求的情况下，最好使用-php-input，因为它不依赖于特定的-php-ini-指令。" class="headerlink" title="php://input 是个可以访问请求的原始数据的只读流。    POST 请求的情况下，最好使用 php://input，因为它不依赖于特定的 php.ini 指令。"></a><code>php://input</code> 是个可以访问请求的原始数据的只读流。    POST 请求的情况下，最好使用 php://input，因为它不依赖于特定的 php.ini 指令。</h5><p>使用<code>php://input</code>协议需要条件：</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006203858.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006203858.png"></p>
 <p>使用如下：：可以通过! burpsuite !抓包，修改数据来进行读取数据包。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006193113.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006193113.png"></p>
 <p>也可以通过! Max HackBar !插件直接访问。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006193345.png"></p>
-<h5 id="php-filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。"><a href="#php-filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。" class="headerlink" title="php://filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。"></a><code>php://filter</code>是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。</h5><p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006195207.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006193345.png"></p>
+<h5 id="php-filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。"><a href="#php-filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。" class="headerlink" title="php://filter是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。"></a><code>php://filter</code>是php中独有的一个协议，可以作为一个中间流来处理其他流，可以进行任意文件的读取。</h5><p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006195207.png"></p>
 <p>使用<code>base64</code>来读取数据的方法在<a target="_blank" rel="noopener" href="https://overnight-miss-you.github.io/2020/10/04/Characters%20of%20the%20filter/">第一弹最后已经说过</a>，在这不在复述。</p>
 <p><code>php://filter</code>字符串处理方法来除去<code>exit</code>。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006200426.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006200426.png"></p>
 <p>！！<code>&lt;?php exet;?&gt;</code>是一个XML标签，我们可以通过<code>strip_tags</code>函数过滤它。</p>
-<p>不过.。<img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/19E64C43.jpg" alt="img">我还不会以这个，先把代码放着:<code>php://filter/write=string.strip_tags|convert.base64-decode/resource=shell.php</code>。（看着和前面的有点像）。</p>
-<h5 id="最后就是data使用条件和php-input一样"><a href="#最后就是data使用条件和php-input一样" class="headerlink" title="最后就是data使用条件和php://input一样"></a>最后就是<code>data</code>使用条件和<code>php://input</code>一样</h5><p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20200728205328780.PNG"></p>
+<p>不过.。<img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/19E64C43.jpg" alt="img">我还不会以这个，先把代码放着:<code>php://filter/write=string.strip_tags|convert.base64-decode/resource=shell.php</code>。（看着和前面的有点像）。</p>
+<h5 id="最后就是data使用条件和php-input一样"><a href="#最后就是data使用条件和php-input一样" class="headerlink" title="最后就是data使用条件和php://input一样"></a>最后就是<code>data</code>使用条件和<code>php://input</code>一样</h5><p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20200728205328780.PNG"></p>
 <p>并且<code>data</code>可以直接写入代码，形式如下：</p>
 <p><code>data: text/plain,&lt;?php 执行内容 ?&gt;</code>,</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006205231.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006205231.png"></p>
 <p>使用base64编码。。（红色划线部分为<code>&lt;?php system(&#39;cat flag.php&#39;);?&gt;</code>的base64加密）</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006204416.png"></p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201006205504.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006204416.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201006205504.png"></p>
 <p><code>data:text/plain;base64,执行的代码（base64加密）</code>==可以绕过一些过滤；。</p>
-<h4 id="！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！"><a href="#！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！" class="headerlink" title="！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！"></a>！！！这次的垃圾博客就到这了，<font color=#\#66CCFF size>蕾姆</font>叫我去睡觉了！！</h4><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/4dee2d4f78f0f736804edf150555b319eac413f8.gif" style="zoom: 80%;" />
+<h4 id="！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！"><a href="#！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！" class="headerlink" title="！！！这次的垃圾博客就到这了，蕾姆叫我去睡觉了！！"></a>！！！这次的垃圾博客就到这了，<font color=#\#66CCFF size>蕾姆</font>叫我去睡觉了！！</h4><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/4dee2d4f78f0f736804edf150555b319eac413f8.gif" style="zoom: 80%;" />
         </div>
 
         

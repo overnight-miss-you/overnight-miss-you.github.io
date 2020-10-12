@@ -397,23 +397,23 @@
 <p>过滤flag或php时<code>f\lag.php</code>,<code>f&#39;l&#39;ag.php</code>,<code>fl??.php</code>.  <code>fla??php</code>,<code>f*</code>等。。  <em><u>?&lt;=&gt;表示一个任意的一个字符</u></em>       <u>（<code>*</code>表示的是自动补全后面的）</u></p>
 <h5 id="当过滤了执行命令system时"><a href="#当过滤了执行命令system时" class="headerlink" title="当过滤了执行命令system时"></a>当过滤了执行命令<code>system</code>时</h5><p>我们可以用 <code>passthur()</code>,<code>exec()</code>,<code>popen()</code>,代替。</p>
 <p><code>passthru</code>直接将结果输出，不需要使用 echo 或 return 来查看结果，不返回任何值，且其可以输出二进制，比如图像数据。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201004183355.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201004183355.png"></p>
 <p>exec ()函数与system()类似，也执行给定的命令，但不输出结果，而是返回结果的<strong>最后一行</strong>。如果要是输出多条；则需要在后面加参数<code>array</code>（不过我现在还不会用）</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201004183126.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201004183126.png"></p>
 <p>popen函数不会直接返回执行结果，而是返回一个文件指针，但命令已经执行。如果要输出文件指针，需要加`fread``。</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201004190756.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201004190756.png"></p>
 <p>如果只是输出了一部分，可能是 300 不够 ，把300加大就行。</p>
 <h5 id="当一些重要的符号被过滤时"><a href="#当一些重要的符号被过滤时" class="headerlink" title="当一些重要的符号被过滤时"></a>当一些重要的符号被过滤时</h5><p>如<code> </code>（空格）被过滤时;我们可以使用：<code>%09(tab)</code>,<code>$IFS$9</code>,<code>$&#123;IFS&#125;</code>,<code>&lt;(不太管用)</code>，<code>&lt;&gt;</code>,<code>%20</code>来代替<code> </code></p>
 <p><code>;</code>被过滤时，我们可以使用<code>?&gt;</code>来代替</p>
 <p>​    <code>()</code>被过滤时，php中不用括号的有 <code>echo</code>,和<code>include</code>等</p>
 <p>​         <code>echo</code>是用于字符串的输出;</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/image-20201005131720796.png" alt="image-20201005131720796"></p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201005132452.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201005131720796.png" alt="image-20201005131720796"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201005132452.png"></p>
 <p>或者使用<code>include</code>通过$_POST[1]来获取数据，但include包含的php文件不会在页面显示，所以需要使用伪协议。*<u>这里使用的是php://filter伪协议</u>*</p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201005154013.png"></p>
-<p><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/20201005154118.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201005154013.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/20201005154118.png"></p>
 <p>不过最后输出的是base64加密的形式输出的，在网页上解密即可。</p>
-<h4 id="！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！"><a href="#！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！" class="headerlink" title="！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！"></a>！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！</h4><img src="https://raw.githubusercontent.com/overnight-miss-you/test/master/QQ图片20201006210944.gif" style="zoom:67%;" />
+<h4 id="！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！"><a href="#！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！" class="headerlink" title="！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！"></a>！！！这篇垃圾博客就到这了，02叫我回家吃饭了。！！</h4><img src="https://cdn.jsdelivr.net/gh/overnight-miss-you/test/QQ图片20201006210944.gif" style="zoom:67%;" />
         </div>
 
         
