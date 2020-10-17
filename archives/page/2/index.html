@@ -12,7 +12,7 @@
 
 
 
-<title>攻防世界刷题 php2,upload1 | overnight-miss-you</title>
+<title>归档 | overnight-miss-you</title>
 
 
 
@@ -299,202 +299,26 @@
     }
 </script>
         <div class="main">
-            <div class="container">
+            <div class="post-wrap archive">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
+        
+
+        
+            <h3>2020</h3>
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/2020/10/03/wife/">亲爱的老婆们</a>
+            <span class="archive-item-date">October 3, 2020</span>
+        </article>
+    
+    
+    <nav class="pagination">
+        <a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
+    </nav>
+
 </div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
-    }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
-
-    
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">攻防世界刷题 php2,upload1</h1>
-            
-                <div class="post-meta">
-                    
-                        Author: <a itemprop="author" rel="author" href="/">﹎ゞ没有信任的爱情</a>
-                    
-
-                    
-                        <span class="post-time">
-                        Date: <a href="#">October 16, 2020&nbsp;&nbsp;21:46:24</a>
-                        </span>
-                    
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
-            <h2 id="划水博客第十單"><a href="#划水博客第十單" class="headerlink" title="划水博客第十單"></a>划水博客第十單</h2><p>依旧是在攻防世界看wp划水。</p>
-<h5 id="1-PHP2"><a href="#1-PHP2" class="headerlink" title="1==PHP2"></a>1==PHP2</h5><p>打开链接。只有一段<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016193914052.png" alt="image-20201016193914052"></p>
-<p>首先基本操作。<code>F12</code>，没啥子发现。接着扫描一下目录。</p>
-<p>简单说做个笔记。使用dirsearch扫描的代码：<code>python dirsearch.py -u +网址+ -e * </code>,加上<code>-s 1</code>会仔细点。</p>
-<p>结果只发现一个<code>index.php</code>。。没啥子用呀。（我用御剑也扫不到.phps的文件。。）</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/00B7F523.png" alt="img"></p>
-<p><code>phps文件就是php的源代码文件，通常用于提供给用户（访问者）查看php代码，因为用户无法直接通过Web浏览器看到php文件的内容，所以需要用phps文件代替。</code></p>
-<p>得到主页的源码。掉头发分析一波。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="string">&quot;admin&quot;</span>===$_GET[id]) &#123;<span class="comment">//id不能=admin</span></span><br><span class="line">  <span class="keyword">echo</span>(<span class="string">&quot;&lt;p&gt;not allowed!&lt;/p&gt;&quot;</span>);</span><br><span class="line">  <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$_GET[id] = urldecode($_GET[id]);<span class="comment">//通过url解码一次后</span></span><br><span class="line"><span class="keyword">if</span>($_GET[id] == <span class="string">&quot;admin&quot;</span>)<span class="comment">//要==admin,,所以只要编码一个字符就可以了；</span></span><br><span class="line">&#123;           <span class="comment">//a的URL编码是%61..因为上面需要解码，所以我们需要加密一次%2561；</span></span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Access granted!&lt;/p&gt;&quot;</span>;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Key: xxxxxxx &lt;/p&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">Can you anthenticate to this website?</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>输入<code>id=%2561dmin</code>即可得到flag。</p>
-<h5 id="2-upload1"><a href="#2-upload1" class="headerlink" title="2==upload1"></a>2==upload1</h5><p>打开链接。一个文件上传的接口。随便上传一个txt文件。提示只能上传一张图片。</p>
-<p>想到将一句话代码放到图片里上传，在用蚁剑连接。想到就干。</p>
-<p>首先在txt文件下写入一句话代码..<code>&lt;?php @eval(_POST[&quot;a&quot;];?&gt;</code>,并改成php文件</p>
-<p>在随便搞个图片，使用cmd将将两个合成为一个图片码；</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016212806501.png" alt="image-20201016212806501"></p>
-<p>在上传文件，并抓包。</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016213220948.png" alt="image-20201016213220948"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016213313926.png"></p>
-<p>显示上传成功。在用蚁剑连接。</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016213633996.png" alt="image-20201016213633996"></p>
-<p>后面有尝试了一下，随便上传一张图，抓包，把图片内容改为一句话木马，在改为php格式也行。</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016214407848.png" alt="image-20201016214407848"></p>
-<h4 id="！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！-σﾟ∀ﾟ-σ-☆"><a href="#！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！-σﾟ∀ﾟ-σ-☆" class="headerlink" title="！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！(σﾟ∀ﾟ)σ..:*☆"></a>！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！(σﾟ∀ﾟ)σ..:*☆</h4><p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/r1200.jpg" alt="1"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/ter1200.jpg" alt="2"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/0_master1200.jpg" alt="3"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/8_p0_master1200.jpg" alt="4"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/951_p0_master1200.jpg" alt="5"></p>
-
-        </div>
-
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>﹎ゞ没有信任的爱情</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://example.com/2020/10/16/10/">http://example.com/2020/10/16/10/</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
-                     <p class="copyright-item">
-                         <span>Slogan:</span>
-                         <span>Do you believe in <strong>DESTINY</strong>?</span>
-                     </p>
-                
-
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>Tag(s):</span>
-                <span class="tag">
-                    
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">back</a>
-                <span>· </span>
-                <a href="/">home</a>
-            </div>
-        </section>
-        <section class="post-nav">
-            
-                <a class="prev" rel="prev" href="/2020/10/17/11/">攻防世界刷题 easytornado，mfw，极客大挑战</a>
-            
-            
-            <a class="next" rel="next" href="/2020/10/15/9/">攻防世界刷题 web,newscenter</a>
-            
-        </section>
-        
-            <section id="comments" class="comments">
-              <style>
-                .comments{margin:30px;padding:10px;background:#ddd}
-                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#ddd}}
-              </style>
-              <div class="valine_comment"></div>
-<!--载入js，在</body>之前插入即可-->
-<!--Leancloud 操作库:-->
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<!--Valine 的核心代码库-->
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-  new Valine({
-      el: '.valine_comment',
-      app_id: 'AGC51zjjy9ICRLH7k5Xt42Pm-gzGzoHsz',
-      app_key: 'Pf5AC03FDS29xbJPgiAgM0Fi',
-      placeholder: '请在此输入您的留言',
-      notify: 'false',
-      verify: 'false',
-    });
-</script>
-            </section>
-        
-
-    </article>
-</div>
-
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">

